@@ -1,0 +1,49 @@
+.exercise{
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 900px;
+    min-height: 200px;
+    background-color: #FFC107;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.exercise h1{
+  font-weight: 400;
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.image{
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.exercise h3{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 40px;
+    border-bottom:  3px solid #1A1A1A;
+
+    
+}
+.exercise h3:first-of-type span {
+    margin-left: 160px;
+  }
+.exercise span{
+    margin-left: 100px;
+}
+
+
+
+.exercise h2{
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.exerciseText{
+    padding: 10px;
+}

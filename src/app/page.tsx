@@ -1,101 +1,242 @@
+'use client'
+
+import Link from "next/link";
+import "./styles.css"
+
+import peso from "./assets/academia.png";
+import pessoas from "./assets/pessoas.png";
+import braço from "./assets/body-building.png";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+interface Exercise{
+  count: number;
+  desc: string;
+  equipment: string;
+  id: number;
+  image: string;
+  muscle: string;
+  name: string;
+  userId: string;
+  video: string;
+}
+
+interface ExerciseUser{
+  desc: string;
+  exercise: Exercise;
+  exerciseId: number;
+  id: number;
+  load: string;
+  rep: number;
+  series: number;
+  traningId: number;
+}
+
+interface Training {
+  count : number;
+  description: string;
+  exerciseUsers: ExerciseUser[];
+  firstId: number;
+  id: number;
+  name: string;
+  userId: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  
+  const [metod, setMetod] = useState("treino");
+  const [searchM, setSearch] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [training , setTraining] = useState<Training[]>([]);
+  const [exercise, setExercise] = useState<Exercise[]>([]);
+
+  const [trainingS , setTrainingS] = useState<Training[]>([]);
+  const [exerciseS, setExerciseS] = useState<Exercise[]>([]);
+
+
+ useEffect(()=>{
+  if (typeof window === "undefined") return;
+  const metods = async ()=>{
+    
+    
+      const url = "https://localhost:7148/WorkoutTraining/better";
+       await fetch(url).then( response => response.json())
+       .then(data =>{
+        setTraining(data);
+        console.log(data);
+        })
+    
+      const url2 = "https://localhost:7148/WorkoutExercise/better";
+      await fetch(url2).then( response => response.json())
+      .then(data =>{
+       setExercise(data);
+       console.log(data);
+       })
+  
+  }
+
+   metods();
+
+ },[]);
+
+ useEffect(()=>{
+
+  if(searchM !== ""){
+      const search = async ()=>{
+
+         if(metod === "treino"){
+            
+          await fetch(`https://localhost:7148/WorkoutTraining/name/${searchM}`).then( response => response.json())
+          .then(data =>{
+            setTrainingS(data);
+            console.log(data,"oi");
+             })
+         }else{
+          await fetch(`https://localhost:7148/WorkoutExercise/name/${searchM}`).then( response => response.json())
+          .then(data =>{
+            setExerciseS(data);
+            console.log(data);
+             })
+         }        
+        
+        }
+        search()
+     }else{
+      setTrainingS([]);
+      setExerciseS([]);
+     }
+ },[searchM])
+
+  return (
+    <div className="Home">
+      <h1>Workout</h1>
+      <div className="Search">
+        <p>Pesquisar por {metod}</p>
+        <input type="text" onChange={e => setSearch(e.target.value)} value={searchM} />
+        <br />
+        <div className="Buttons">
+          <button onClick={E=> setMetod("treino")}>
+            <span className="button_top">
+              Treino
+            </span>
+          </button>
+          <button onClick={e=> setMetod("exercicio")}>
+            <span className="button_top">
+              Exercicio
+            </span>
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      </div>
+
+    {trainingS.length > 0 || exerciseS.length > 0 ?(
+    <>
+    
+    {trainingS.length > 0 ?(
+<>
+{trainingS.map(training => {
+  const count =training.exerciseUsers.length;
+  return(
+  <div className="work" key={training.id}>
+
+    <h2>{training.name}</h2>
+
+    <div className="workContent">
+
+      <div className="imageText">
+        <Image src={peso} alt="Peso de academia" className="workImage" />
+        <p>{count} exercicios</p>
+      </div>
+
+      <div className="imageText">
+        <Image src={pessoas} alt="academia" className="workImage" />
+        <p>{training.count} ultilizam</p>
+      </div>
+    </div> 
+    </div>
+    )})}  
+    </>
+    ):(
+      <>
+      {exerciseS.map(exercise=>(
+          <div className="work" key={exercise.id}>
+
+            <h2>{exercise.name}</h2>
+
+            <div className="workContent">
+
+              <div className="imageText">
+                <Image src={braço} alt="Peso de academia" className="workImage" />
+                <p>{exercise.muscle}</p>
+              </div>
+
+              <div className="imageText">
+                <Image src={pessoas} alt="academia" className="workImage" />
+                <p> {exercise.count} ultilizam</p>
+              </div>
+            </div>
+
+          </div>
+          ))}
+      </>
+    )}
+    
+    </>):(
+
+      <div className="Workout">
+        <h2>Treinos mais utilizados</h2>
+        <div>
+
+         {training.map(training => {
+          const count =training.exerciseUsers.length;
+          return(
+          <div className="work" key={training.id}>
+
+            <h2>{training.name}</h2>
+
+            <div className="workContent">
+
+              <div className="imageText">
+                <Image src={peso} alt="Peso de academia" className="workImage" />
+                <p>{count} exercicios</p>
+              </div>
+
+              <div className="imageText">
+                <Image src={pessoas} alt="academia" className="workImage" />
+                <p>{training.count} ultilizam</p>
+              </div>
+            </div>
+
+          </div>
+            )})}
+        </div>
+
+        <h2>Exercicios mais utilizados</h2>
+        <div>
+
+          {exercise.map(exercise=>(
+          <div className="work" key={exercise.id}>
+
+            <h2>{exercise.name}</h2>
+
+            <div className="workContent">
+
+              <div className="imageText">
+                <Image src={braço} alt="Peso de academia" className="workImage" />
+                <p>{exercise.muscle}</p>
+              </div>
+
+              <div className="imageText">
+                <Image src={pessoas} alt="academia" className="workImage" />
+                <p> {exercise.count} ultilizam</p>
+              </div>
+            </div>
+
+          </div>
+          ))}
+        </div>
+      </div>
+    ) }
     </div>
   );
 }

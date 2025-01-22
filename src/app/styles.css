@@ -1,0 +1,119 @@
+.Home{
+    margin-top: 100px;
+}
+
+.Home h1{
+    font-size: 120px;
+    color: #FFFFFF;
+}
+
+.Search{
+    margin-top: 20px;
+}
+
+.Search p{
+    margin-bottom: 10px;
+    color:#FFFFFF;
+    font-size: 27px;
+    font-weight: 200;
+}
+
+.Search input{
+    width: 400px;
+    background-color: #1A1A1A;
+    border: 1px solid #FF4C4C ;
+    border-radius: 10px;
+}
+
+.Buttons{
+    margin: 0 auto;
+    max-width: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+button {
+  /* Variables */
+  --button_radius: 0.75em;
+  --button_color: #1A1A1A;
+  --button_outline_color: #FFFFFF;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+}
+
+.button_top {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+button:hover .button_top {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+
+button:active .button_top {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+.Workout{
+    margin-top: 40px;
+}
+.Workout h2{
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.work{
+    background-color: #FFC107;
+    border-radius: 5px;
+    width: 350px;
+    min-height: 225px;
+}
+
+.work h2{
+    font-size: 40px;
+    border-bottom: 2px solid #1A1A1A; 
+    margin-bottom: 15px;
+    color: #1A1A1A;
+}
+
+.work p{
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+.workContent{
+    margin: 0 auto;
+    text-align: center;
+    max-width: 175px;
+    display: flex;
+    flex-direction: column;
+}
+
+.imageText {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+
+.workImage{
+    width: 40px;
+    height: 44px;
+
+}
+

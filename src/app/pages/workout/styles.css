@@ -1,0 +1,60 @@
+.WorkoutContent{
+    margin: 0 auto;
+    margin-top: 200px;
+    background-color: #4D4D4D;
+    border-radius: 10px;
+    width: 900px;
+    min-height: 500px;
+    padding-bottom: 20px;
+    
+}
+
+
+.WorkoutContent h1{
+    border-bottom: 2px solid #1A1A1A; 
+    font-size: 50px;
+    padding: 10px;
+}
+
+.work{
+    background-color: #1A1A1A;
+    border-radius: 5px;
+    color: #FFFF;
+    width: 300px;
+    min-height: 300px;
+    margin: 0 auto ;
+    margin-top: 50px;
+    padding-bottom: 10px;
+}
+
+.work h2{
+    font-size: 25px;
+}
+
+.imageWork{
+    margin: 0 auto;
+    width: 250px;
+    height: 210px;
+}
+
+.workContent{
+    width: 250px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.workContent h3{
+   font-size: 25px;
+   font-weight: 200;
+   border-bottom: 3px solid #FFFF; 
+   text-align: left;
+}
+
+.workContent span{
+    float: right;
+}
+
+.workContent p {
+    margin-top: 10px;
+    font-weight: 200;
+}
