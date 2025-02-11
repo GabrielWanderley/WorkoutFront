@@ -3,7 +3,7 @@
 import Image from "next/image";
 import peso from "../assets/balanca.png"
 import altura from "../assets/altura.png"
-import imc from "../assets/imc.png"
+import imcI from "../assets/imc.png"
 
 import braco from "../assets/body-building.png"
 import pessoas from "../assets/pessoas.png"
@@ -11,13 +11,15 @@ import pessoas from "../assets/pessoas.png"
 import pesoA from "../assets/academia.png";
 
 
-import "./styles.css"
+import "./stylesUser.css"
 import { useUser } from "@/Context";
 import { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import { toast } from "react-toastify";
 
 import Link from "next/link";
+import AddIcon from '@mui/icons-material/Add';
+import { Key } from "@mui/icons-material";
 
 
 
@@ -73,8 +75,12 @@ export default function User (){
 
    const [load, setLoad] =useState(0);
 
+   const [imc, setImc] =useState("");
+
+   const [training, setTraining] = useState<Training[]>([]);
+   
+
    useEffect(()=>{
-    if (typeof window === "undefined") return;
 
      if (userId){
 
@@ -84,10 +90,31 @@ export default function User (){
           .then(data =>{
            setUser(data);
            console.log(data);
+           const imcCategories = [
+            { max: 18.5, label: "Abaixo do peso" },
+            { max: 24.9, label: "Peso normal" },
+            { max: 29.9, label: "Sobrepeso" },
+            { max: 34.9, label: "Obesidade grau 1" },
+            { max: 39.9, label: "Obesidade grau 2" },
+            { max: Infinity, label: "Obesidade grau 3" },
+          ];
+      
+          const category = imcCategories.find((cat) => data.imc <= cat.max);
+          if(category){
+          setImc(category.label);
+        }
            })
        
 
         }      
+        const getTrainingByUser = async()=>{
+          const apiurl = `https://localhost:7148/WorkoutTraining/user/${userId}`
+          await fetch(apiurl).then(response => response.json())
+          .then(data =>{
+          setTraining(data);
+          })
+      };
+      getTrainingByUser();
 
         getUser();
 
@@ -174,6 +201,7 @@ export default function User (){
           try{
              if(!nomeE || !descE || !musculo || !userId) {
               toast.warning("Preencha os dados nescessarios")
+              return;
              }
             const api = "https://localhost:7148/WorkoutExercise";
             const dados = {
@@ -253,10 +281,74 @@ export default function User (){
 
         }
 
+        const [idEx, setIdEx]= useState(0);
 
+        const [openM, setOpenM] = useState(false);
+        const handleOpenM = (idEx: number) => {setOpenM(true); setIdEx(idEx);}
+        const handleCloseM = () => setOpenM(false);
+    
+        const addExercicio = async (idT:number) =>{
+          const dados ={
+           Load : "0",
+           Rep: 0,
+           Series:0,
+           ExerciseId: idEx,
+           desc:"",
+           TrainingId: idT
+          };
+    
+          const apiUrl = "https://localhost:7148/WorkoutExerciseUser";
+    
+         const response = await fetch(apiUrl,{
+           method: "POST",
+           headers: {
+             'Content-Type': 'application/json', 
+           },
+           body: JSON.stringify(dados)
+         })
+    
+         if (!response.ok) {
+             toast.error("Erro ao adicionar exercicio");
+             console.log(response.statusText);
+         }
+    
+         toast.success("Exercicio adicionado com sucesso");
+         setLoad(load + 1);
+         handleCloseM();
+    
+       }
 
     return(
         <div className="User">
+                  <Modal
+          open={openM}
+          onClose={handleCloseM}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className='Modal' >
+            {training.length > 0 ? (
+              <div>
+                {training.map(trai => {
+
+                  const isExerciseIdMatch = trai.exerciseUsers.some(exe => exe.exerciseId == idEx);
+
+                  return (
+                    <div key={trai.id} className="AddExer">
+                      <p>{trai.name}</p>
+                      <button
+                        style={{ backgroundColor: isExerciseIdMatch ? 'gray' : '#1A1A1A' }}
+                        disabled={isExerciseIdMatch}
+                        onClick={() => addExercicio(trai.id)}>Adicionar exercício</button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : <h1>Ainda sem treinos cadastrados</h1>}
+
+          </Box>
+        </Modal>
+
           {userId ?(<>
             <div className="UserContent">
             <h1>{user?.name}</h1>
@@ -273,8 +365,8 @@ export default function User (){
             </div>
 
             <div className="imageText">
-            <Image src={imc} alt="osik" className="ImagesContet" />
-            <p>peso ideal</p>
+            <Image src={imcI} alt="osik" className="ImagesContet" />
+            <p>{imc}</p>
             </div>
 
            </div>
@@ -284,13 +376,13 @@ export default function User (){
           <div>
             <div className="Buttons">
 
-          <button onClick={handleOpenMT}>
+          <button onClick={handleOpenMT} className="button2">
             <span className="button_top">
               Criar Treino
             </span>
           </button>
 
-          <button onClick={handleOpenME}>
+          <button onClick={handleOpenME} className="button2">
             <span className="button_top">
               Criar Exercicio
             </span>
@@ -306,27 +398,34 @@ export default function User (){
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-     <Box className='Modal' >
+     <Box className='ModalCE' >
+      <p>Nome é obrigatorio</p>
       <input type="text" placeholder="Nome do Exercicio" 
              value={nomeE} onChange={e=> setNomeE(e.target.value)}/>
-
+      
+      <p>Musculo é obrigatorio</p>
       <input type="text" placeholder="Musculo" 
              value={musculo} onChange={e=> setMusculo(e.target.value)}/>
 
+      <p>Descrição é obrigatorio</p>
+      <textarea  placeholder="Descrição" style={{maxHeight:'50px', minHeight:'50px'}}
+                 value={descE} onChange={e=> setDescE(e.target.value)}/>
+      <br/>
       <input type="text" placeholder="Equipamento" 
              value={equipamento} onChange={e=> setEquipamento(e.target.value)}/>
 
-      <textarea  placeholder="Descrição"
-                 value={descE} onChange={e=> setDescE(e.target.value)}/>
+
       <p>Imagem opcional</p>
       <input type="file" accept="image/*" onChange={handleFileChange} />
       <br/>
       <p>Video opcional</p>
       <input type="file" accept="video/*" onChange={handleFileChangeVideo} />
       <br/>
-      <button onClick={CriarExercicio}>
-      Criar exercicio 
-      </button>  
+      <button onClick={CriarExercicio} className="button2M">
+            <span className="button_top">
+              Criar Exercicio
+            </span>
+          </button>
      </Box>
 
       </Modal>
@@ -337,26 +436,29 @@ export default function User (){
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-     <Box className='Modal' >
+     <Box className='ModalCT' >
+      <h1>Criar treino</h1>
       <input type="text" placeholder="Nome do treino" 
-             value={nomeE} onChange={e=> setName(e.target.value)}/>
+             value={name} onChange={e=> setName(e.target.value)}/>
+      
       <input type="text" placeholder="Descrição"
              value={desc} onChange={e=> setDesc(e.target.value)}/>
       <br/>
-      <button onClick={CriarTreino}>
-      Criar treino 
+      <button onClick={CriarTreino}className="button2M">
+            <span className="button_top">
+              Criar Treino
+            </span>
       </button>  
      </Box>
 
       </Modal>
-      {user?.workouts && user?.workouts.length < 0 ?(
-        <h1 style={{fontSize:"30px", color:"#FFFF"}}>Ainda sem treinos cadastrados</h1>
-      ):(<>
+      {user?.workouts && user?.workouts.length > 0 ?(<>
           <h1 style={{fontSize:"30px", color:"#FFFF"}}>Meus treinos</h1>
 
         {user?.workouts?.map(workout =>(
-         <div className="work" key={workout.id}>
-
+         <div className="workU" key={workout.id}>
+           <Link href={`workout/${workout.id}`}>
+           
             <h2>{workout.name}</h2>
 
             <div className="workContent">
@@ -371,18 +473,25 @@ export default function User (){
                 <p> {workout.count} ultilizam</p>
               </div>
             </div>
+            </Link>
            </div>
           ))}
- </>) }
+ </>
+      ):(
 
- { user?.exercises && user?.exercises.length < 0 ?(
-        <h1 style={{fontSize:"30px", color:"#FFFF"}}>Ainda sem Exercicios cadastrados</h1>
-      ):(<>
+        <h1 style={{fontSize:"30px", color:"#FFFF"}}>Ainda sem treinos cadastrados</h1>
+
+      ) }
+
+ { user?.exercises && user?.exercises.length > 0 ?(
+  <>
+
           <h1 style={{fontSize:"30px", color:"#FFFF"}}>Meus Exercicios</h1>
           
           {user?.exercises?.map(exer =>(
-        <Link href={`/exercise/${exer.id}`}>
-         <div className="work" key={exer.id}>
+         <div className="workU" key={exer.id}>
+          {userId ? <AddIcon onClick={e=> handleOpenM(exer.id)} fontSize="large" className="Add" /> : <></>}
+        <Link href={`exercise/${exer.id}`}>
 
             <h2>{exer.name}</h2>
 
@@ -398,10 +507,14 @@ export default function User (){
                 <p> {exer.count} ultilizam</p>
               </div>
             </div>
+            </Link>
            </div>
-           </Link>
+           
              ))}
- </>) }
+ </>
+      ):(       
+         <h1 style={{fontSize:"30px", color:"#FFFF"}}>Ainda sem Exercicios cadastrados</h1>
+       ) }
 </div>
 </>):(
  

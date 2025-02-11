@@ -1,7 +1,7 @@
 "use client"
 
 import { toast } from "react-toastify";
-import "./styles.css";
+import "./stylesBar.css";
 import { useEffect, useState } from "react";
 import { useUser } from "@/Context";
 
@@ -10,6 +10,8 @@ import { useCreateUserWithEmailAndPassword, useSendPasswordResetEmail, useSignIn
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import HomeIcon from '@mui/icons-material/Home';
+
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Link from "next/link";
@@ -106,6 +108,10 @@ useEffect(() =>{
           setNome("")
           setEmail("")
           setSenha("")
+          setAltura(0)
+          setObj("");
+          setPeso(0);
+          handleCloseMC();
           toast.success("Usuario foi criado com sucesso")
           setConect(true)
           localStorage.setItem('conect', 'true');
@@ -184,14 +190,20 @@ const login = async () => {
         <div className="navBar">
                        {conect?(
           <>
-          <Link href={"../../User"} >
-          <PersonOutlineIcon />
+          <Link href={"/"}>
+          <HomeIcon fontSize="large"/>
           </Link>
-          <LogoutIcon  onClick={desconect}/>
+          <Link href={"../../User"} >
+          <PersonOutlineIcon fontSize="large"/>
+          </Link>
+          <LogoutIcon  onClick={desconect} fontSize="large"/>
           </>
         ):(
           <>
-          <PersonOutlineIcon  onClick={handleOpenM}/>
+          <Link href={"/"}>
+          <HomeIcon fontSize="large"/>
+          </Link>
+          <PersonOutlineIcon  onClick={handleOpenM} fontSize="large"/>
           </>
         )}
 
@@ -202,9 +214,17 @@ const login = async () => {
         aria-describedby="modal-modal-description"
       >
      <Box className='Modal' >
+         <h1>Workout</h1>
+         <h2>Conectar conta</h2>
         <input type="text" placeholder='email' onChange={e => setEmail(e.target.value)}/>
         <input type="password" placeholder='senha' onChange={e => setSenha(e.target.value)}/>
-        <button onClick={login}>Conectar</button>
+        <br/>
+        <button onClick={login} className="button3M">
+            <span className="button_top">
+              Conectar
+            </span>
+        </button>
+        <br/>
         <h3
          onClick={async () => {
           const success = await sendPasswordResetEmail(
@@ -217,7 +237,7 @@ const login = async () => {
             toast.warning('Email errado ou conta inexistente')
           }
         }} style={{cursor:"pointer"}}>Esqueci a senha </h3>
-
+<br/>
         <h3 onClick={handleOpenMC}>Criar conta</h3>
      </Box>
       </Modal>
@@ -228,8 +248,9 @@ const login = async () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-     <Box className='Modal' >
-
+     <Box className='ModalCC' >
+        
+        <h1>Criar conta</h1>
         <input type="text" 
         placeholder='email' 
         value={email}
@@ -265,8 +286,12 @@ const login = async () => {
         placeholder="altura"
         onChange={e => setAltura(Number(e.target.value))}
         />   
-
-        <button onClick={createCount}>Criar conta</button>
+        <br/>
+        <button onClick={createCount} className="button3M">
+            <span className="button_top">
+              Criar conta
+            </span>
+          </button>
      </Box>
       </Modal>
         </div>

@@ -47,3 +47,18 @@
 .exerciseText{
     padding: 10px;
 }
+
+.AddExer{
+    margin: 0 auto;
+    width: 200px;
+    height: 80px;
+    background-color: #FF4C4C;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.AddExer button{
+    width: 180px;
+    height: 30px;
+}

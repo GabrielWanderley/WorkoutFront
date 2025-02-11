@@ -1,0 +1,124 @@
+.navBar{
+    background-image: url("../../assets/Rectangle 1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0px;
+    margin-top: 0px;
+    padding-top: 1px;
+}
+
+
+.Modal{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 400px;
+    min-height: 320px;
+    background-color: #3D3B3B;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+
+.Modal h1{
+    font-size: 40px;
+}
+
+.Modal h2{
+    font-size: 20px;
+}
+
+.Modal input{
+    margin-bottom: 10px;
+    width: 230px;
+    border-radius: 4px;
+}
+
+.Modal h3{
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: #1A1A1A;
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.button3M {
+    /* Variables */
+    --button_radius: 0.75em;
+    --button_color: #3D3B3B;
+    --button_outline_color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--button_radius);
+    background: var(--button_outline_color);
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  
+  .button_top {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid var(--button_outline_color);
+    border-radius: var(--button_radius);
+    padding: 0.75em 1.5em;
+    background: var(--button_color);
+    color: var(--button_outline_color);
+    transform: translateY(-0.2em);
+    transition: transform 0.1s ease;
+  }
+  
+  .button2:hover .button_top {
+    /* Pull the button upwards when hovered */
+    transform: translateY(-0.33em);
+  }
+  
+  .button2:active .button_top {
+    /* Push the button downwards when pressed */
+    transform: translateY(0);
+  }
+
+  .Buttons{
+    margin: 0 auto;
+    max-width: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.ModalCC{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 400px;
+    height: 350px;
+    background-color: #3D3B3B;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+
+.ModalCC h1{
+    font-size: 40px;
+}
+
+.ModalCC input{
+    margin-bottom: 10px;
+    width: 230px;
+    border-radius: 4px;
+    color: black;
+}

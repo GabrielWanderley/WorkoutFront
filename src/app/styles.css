@@ -82,6 +82,7 @@ button:active .button_top {
     border-radius: 5px;
     width: 350px;
     min-height: 225px;
+    position: relative;
 }
 
 .work h2{
@@ -117,3 +118,33 @@ button:active .button_top {
 
 }
 
+.AddExer{
+    margin: 0 auto;
+    width: 200px;
+    height: 80px;
+    background-color: #FF4C4C;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.AddExer button{
+    width: 180px;
+    height: 30px;
+}
+
+.ModalH{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 400px;
+    min-height: 320px;
+    background-color: #3D3B3B;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}

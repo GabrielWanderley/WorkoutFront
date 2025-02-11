@@ -39,7 +39,7 @@
     font-size: 20px;
 }
 
-  button {
+  .button2 {
     /* Variables */
     --button_radius: 0.75em;
     --button_color: #1A1A1A;
@@ -51,6 +51,21 @@
     border-radius: var(--button_radius);
     background: var(--button_outline_color);
   }
+
+  .button2M {
+    /* Variables */
+    --button_radius: 0.75em;
+    --button_color: #3D3B3B;
+    --button_outline_color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--button_radius);
+    background: var(--button_outline_color);
+    margin-top: 10px;
+  }
+  
   
   .button_top {
     display: block;
@@ -64,12 +79,12 @@
     transition: transform 0.1s ease;
   }
   
-  button:hover .button_top {
+  .button2:hover .button_top {
     /* Pull the button upwards when hovered */
     transform: translateY(-0.33em);
   }
   
-  button:active .button_top {
+  .button2:active .button_top {
     /* Push the button downwards when pressed */
     transform: translateY(0);
   }
@@ -106,21 +121,21 @@
 }
 
 
-.work{
+.workU{
     background-color: #FFC107;
     border-radius: 5px;
     width: 350px;
     min-height: 225px;
 }
 
-.work h2{
+.workU h2{
     font-size: 40px;
     border-bottom: 2px solid #1A1A1A; 
     margin-bottom: 15px;
     color: #1A1A1A;
 }
 
-.work p{
+.workU p{
     font-size: 20px;
     margin-left: 15px;
 }
@@ -139,3 +154,63 @@
     margin-bottom: 15px;
   }
   
+
+  .ModalCE{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 400px;
+    height: 400px;
+    background-color: #3D3B3B;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ModalCE p{
+    color: white;
+  }
+
+  .ModalCT{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 400px;
+    height: 200px;
+    background-color: #3D3B3B;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ModalCT h1{
+    font-size: 30px;
+    color: white;
+  }
+
+  .ModalCT input {
+    width: 300px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+
+  .AddExer{
+    margin: 0 auto;
+    width: 200px;
+    height: 80px;
+    background-color: #FF4C4C;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.AddExer button{
+    width: 180px;
+    height: 30px;
+}
